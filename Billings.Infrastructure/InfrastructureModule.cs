@@ -1,8 +1,10 @@
 ﻿namespace Billings.Infrastructure;
 
+using Application.Abstractions.Repositories;
 using Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Repositories;
 
 public static class InfrastructureModule
 {
@@ -13,7 +15,15 @@ public static class InfrastructureModule
     /// <returns></returns>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        services.AddKafkaEventBus(config);
-        return services;
+        return services.AddKafkaEventBus(config)
+            .AddDbContextLayer(config)
+            .AddRepositories();
+    }
+
+    private static IServiceCollection AddRepositories(this IServiceCollection services)
+    {
+        return services
+            .AddTransient<IUsageRepository, UsageRepository>()
+            .AddTransient<IInvoiceRepository, InvoiceRepository>();
     }
 }

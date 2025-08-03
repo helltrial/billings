@@ -1,26 +1,49 @@
 ﻿namespace Billings.Domain.Entities;
 
 /// <summary>
-/// Счёт, формируется на основе Usage.
+/// Представляет собой выставленный пользователю счёт за использование платной функции.
 /// </summary>
 public class Invoice
 {
-    public Guid Id { get; private set; }
-    public Guid CustomerId { get; private set; }
-    public decimal TotalAmount { get; private set; }
-    public DateTime CreatedAt { get; private set; }
-    
+    /// <summary>
+    /// Уникальный идентификатор счёта.
+    /// </summary>
+    public Guid Id { get; init; }
+
+    /// <summary>
+    /// Идентификатор использования, за которое выставлен счёт.
+    /// </summary>
+    public Guid UsageId { get; set; }
+
+    /// <summary>
+    /// Идентификатор пользователя.
+    /// </summary>
+    public Guid UserId { get; set; }
+
+    /// <summary>
+    /// Название платной функции.
+    /// </summary>
+    public string Feature { get; set; } = default!;
+
+    /// <summary>
+    /// Сумма к оплате.
+    /// </summary>
+    public decimal Amount { get; set; }
+
+    /// <summary>
+    /// Дата выставления счёта.
+    /// </summary>
+    public DateTime CreatedAt { get; set; }
+
     private Invoice() { }
 
-    // Фабричный метод создания инвойса
-    public static Invoice Generate(Guid customerId, decimal totalAmount)
+    public Invoice(Guid usageId, Guid userId, string feature, decimal amount)
     {
-        return new Invoice
-        {
-            Id = Guid.NewGuid(),
-            CustomerId = customerId,
-            TotalAmount = totalAmount,
-            CreatedAt = DateTime.UtcNow
-        };
+        Id = Guid.NewGuid();
+        UsageId = usageId;
+        UserId = userId;
+        Feature = feature;
+        Amount = amount;
+        CreatedAt = DateTime.UtcNow;
     }
 }

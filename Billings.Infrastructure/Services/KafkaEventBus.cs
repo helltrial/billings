@@ -22,7 +22,7 @@ public class KafkaEventBus : IEventBus
         var config = new ProducerConfig
         {
             BootstrapServers = options.BootstrapServers,
-            Acks = Enum.Parse<Acks>(kafkaOptions.Value.Acks),
+            Acks = Enum.Parse<Acks>(kafkaOptions.Value.Acks, true),
             EnableIdempotence = options.EnableIdempotence,
             CompressionType = Enum.Parse<CompressionType>(options.CompressionType, true)
         };
@@ -34,7 +34,7 @@ public class KafkaEventBus : IEventBus
     /// <summary>
     /// Публикует событие в Kafka.
     /// </summary>
-    public async Task PublishAsync<T>(string topic, T @event) where T : IDomainEvent
+    public async Task PublishAsync<T>(string topic, T @event, CancellationToken cancellation) where T : IDomainEvent
     {
         var json = JsonSerializer.Serialize(@event);
         var key = Guid.NewGuid().ToString();
@@ -45,7 +45,7 @@ public class KafkaEventBus : IEventBus
             {
                 Key = key,
                 Value = json
-            });
+            }, cancellation);
 
             _logger.LogInformation("Событие опубликовано: topic={Topic}, partition={Partition}, offset={Offset}", topic, result.Partition, result.Offset);
         }

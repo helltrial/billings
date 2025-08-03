@@ -1,21 +1,20 @@
-﻿namespace Billings.Api.Controllers;
+﻿namespace Billings.Api.Controllers.V1;
 
-using Application.Requests.Usages.Commands;
+using Billings.Application.Requests.Usages.Commands;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
 /// <summary>
 /// Контроллер для регистрации потребления ресурсов
 /// </summary>
-[ApiController]
-[Route("api/[controller]")]
+[Route("api/v1/[controller]")]
 public class UsageController(IMediator mediator) : ControllerBase
 {
     /// <summary>
     /// Регистрирует факт потребления ресурса
     /// </summary>
     [HttpPost]
-    public async Task<IActionResult> ReportUsage([FromBody] ReportUsageCommand command)
+    public async Task<IActionResult> ReportUsage([FromBody] CreateUsageCommand command)
     {
         await mediator.Send(command);
         return Ok("Usage accepted");

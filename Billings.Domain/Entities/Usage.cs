@@ -1,43 +1,46 @@
 ﻿namespace Billings.Domain.Entities;
 
 /// <summary>
-/// Представляет факт потребления ресурса конкретным аккаунтом.
-/// Используется как основа для расчёта инвойсов.
+/// Представляет факт использования платной функции пользователем.
+/// Используется для расчёта задолженности.
 /// </summary>
 public class Usage
 {
-    public Guid Id { get; private set; } = Guid.NewGuid();
+    /// <summary>
+    /// Уникальный идентификатор использования.
+    /// </summary>
+    public Guid Id { get; init; }
 
     /// <summary>
-    /// Идентификатор аккаунта, совершившего потребление
+    /// Идентификатор пользователя, совершившего действие.
     /// </summary>
-    public Guid AccountId { get; private set; }
+    public Guid UserId { get; set; }
 
     /// <summary>
-    /// Тип ресурса (например, "storage", "sms")
+    /// Название функции, которая была использована (например, "boost_listing").
     /// </summary>
-    public string Resource { get; private set; } = string.Empty;
+    public string Feature { get; set; } = default!;
 
     /// <summary>
-    /// Количество потребленного ресурса
+    /// Стоимость использования функции.
     /// </summary>
-    public decimal Amount { get; private set; }
+    public decimal Amount { get; set; }
 
     /// <summary>
-    /// Время потребления ресурса
+    /// Временная метка, когда произошло использование.
     /// </summary>
-    public DateTime Timestamp { get; private set; } = DateTime.UtcNow;
-    
-    private Usage() { }
+    public DateTime CreatedAt { get; set; }
 
-    /// <summary>
-    /// Создаёт новую запись о потреблении ресурса
-    /// </summary>
-    public Usage(Guid accountId, string resource, decimal amount, DateTime? timestamp = null)
+    private Usage()
     {
-        AccountId = accountId;
-        Resource = resource;
+    }
+
+    public Usage(Guid userId, string feature, decimal amount)
+    {
+        Id = Guid.NewGuid();
+        UserId = userId;
+        Feature = feature;
         Amount = amount;
-        Timestamp = timestamp ?? DateTime.UtcNow;
+        CreatedAt = DateTime.UtcNow;
     }
 }

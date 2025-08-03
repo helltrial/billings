@@ -6,12 +6,14 @@ using Abstractions;
 /// Событие, обозначающее генерацию нового счёта (Invoice).
 /// Это событие будет передано в Kafka.
 /// </summary>
-public class InvoiceGenerated : IDomainEvent
+public class InvoiceCreated : IDomainEvent
 {
-    public Guid EventId { get; init; } = Guid.NewGuid();
     public Guid InvoiceId { get; set; }
-    public Guid CustomerId { get; set; }
+    public Guid UsageId { get; set; }
+    public Guid UserId { get; set; }
+    public string Feature { get; set; } = default!;
+    public decimal Amount { get; set; }
     
-    public decimal TotalAmount { get; set; }
+    public Guid EventId { get; }
     public DateTime CreatedAt { get; set; }
 }
