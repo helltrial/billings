@@ -2,6 +2,7 @@
 
 using Abstractions;
 using Abstractions.Repositories;
+using Common;
 using Domain.Entities;
 using Domain.Events;
 using MediatR;
@@ -43,7 +44,7 @@ internal class CreateInvoiceCommandHandler(IEventBus eventBus, IInvoiceRepositor
             CreatedAt = invoice.CreatedAt
         };
 
-        await eventBus.PublishAsync("invoice-created", evt, cancellationToken);
+        await eventBus.PublishAsync(KafkaTopics.InvoiceCreated, evt, cancellationToken);
 
         return invoice.Id;
     }

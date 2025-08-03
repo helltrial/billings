@@ -3,6 +3,7 @@
 using Abstractions;
 using Abstractions.Repositories;
 using Billings.Domain.Entities;
+using Common;
 using Domain.Events;
 using Invoices.Commands;
 using MediatR;
@@ -40,7 +41,7 @@ internal class CreateUsageCommandHandler(IEventBus eventBus, IUsageRepository us
             CreatedAt = DateTime.UtcNow
         };
 
-        await eventBus.PublishAsync("usage-created", evt, cancellationToken);
+        await eventBus.PublishAsync(KafkaTopics.UsageCreated, evt, cancellationToken);
         
         var command = new CreateInvoiceCommand(
             evt.UsageId,
