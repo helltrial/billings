@@ -1,9 +1,8 @@
 ﻿namespace Billings.Infrastructure;
 
-using Microsoft.Extensions.Options;
+using Extensions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Settings;
 
 public static class InfrastructureModule
 {
@@ -14,8 +13,7 @@ public static class InfrastructureModule
     /// <returns></returns>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
-        services.AddOptions<KafkaSettings>()
-            .Bind(config.GetSection("Kafka"));
+        services.AddKafkaEventBus(config);
         return services;
     }
 }

@@ -7,15 +7,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Billings.Application\Billings.Application.csproj" />
+        <ProjectReference Include="..\Billings.Application\Billings.Application.csproj"/>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Confluent.Kafka" Version="2.11.0" />
-      <PackageReference Include="Microsoft.Extensions.Configuration" Version="9.0.7" />
-      <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.7" />
-        <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="9.0.7" />
-        <PackageReference Include="Microsoft.Extensions.Options.DataAnnotations" Version="9.0.7" />
+        <PackageReference Include="Confluent.Kafka" Version="2.11.0"/>
+        <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="9.0.7" />
     </ItemGroup>
 
 </Project>
