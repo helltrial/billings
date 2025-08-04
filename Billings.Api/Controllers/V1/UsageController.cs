@@ -20,7 +20,11 @@ public class UsageController(IMediator mediator) : ControllerBase
         await mediator.Send(command);
         return Ok("Usage accepted");
     }
-    
+
+    /// <summary>
+    /// Получение записи по идентификатору
+    /// </summary>
+    /// <param name="id">Идентификатор.</param>
     [HttpGet("{id:guid}")]
     public async Task<IActionResult> GetById(Guid id)
     {
@@ -28,6 +32,10 @@ public class UsageController(IMediator mediator) : ControllerBase
         return invoice is null ? NotFound() : Ok(invoice);
     }
 
+    /// <summary>
+    /// Получение всех записей по идентификатору пользователя.
+    /// </summary>
+    /// <param name="userId">Идентификатор юзера.</param>
     [HttpGet("user/{userId:guid}")]
     public async Task<IActionResult> GetByUserId(Guid userId)
     {

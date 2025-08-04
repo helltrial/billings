@@ -8,6 +8,7 @@ using Application.Abstractions;
 using Domain.Abstractions;
 using Settings;
 
+/// <inheritdoc />
 public class KafkaEventBus : IEventBus
 {
     private readonly IProducer<string, string> _producer;
@@ -31,9 +32,7 @@ public class KafkaEventBus : IEventBus
         _logger = logger;
     }
 
-    /// <summary>
-    /// Публикует событие в Kafka.
-    /// </summary>
+    /// <inheritdoc />
     public async Task PublishAsync<T>(string topic, T @event, CancellationToken cancellation) where T : IDomainEvent
     {
         var json = JsonSerializer.Serialize(@event);

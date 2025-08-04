@@ -7,5 +7,11 @@ using Domain.Entities;
 /// </summary>
 public interface IUsageRepository
 {
+    /// <summary>
+    /// Создает запись.
+    /// </summary>
+    /// <param name="usage">Usage.</param>
+    /// <param name="cancellationToken">Токен.</param>
+    /// <returns></returns>
     public Task AddAsync(Usage usage, CancellationToken cancellationToken = default);
 }

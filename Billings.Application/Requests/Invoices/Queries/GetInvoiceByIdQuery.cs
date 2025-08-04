@@ -4,8 +4,13 @@ using Abstractions.Repositories;
 using Domain.Entities;
 using MediatR;
 
+/// <summary>
+/// Возвращает инвойс по идентификатору.
+/// </summary>
+/// <param name="Id">Идентификатор.</param>
 public record GetInvoiceByIdQuery(Guid Id) : IRequest<Invoice?>;
 
+/// <inheritdoc />
 internal class GetInvoiceByIdQueryHandler(IInvoiceRepository repository)
     : IRequestHandler<GetInvoiceByIdQuery, Invoice?>
 {
